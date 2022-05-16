@@ -4,8 +4,10 @@ package newsanalyzer.ui;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 import newsanalyzer.ctrl.Controller;
+import newsapi.NewsException;
 
 public class UserInterface 
 {
@@ -13,30 +15,56 @@ public class UserInterface
 	private Controller ctrl = new Controller();
 
 	public void getDataFromCtrl1(){
-		System.out.println("ABC");
-
-		ctrl.process();
+		try {
+			System.out.println(ctrl.process("Wirtschaft"));
+		} catch (NewsException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void getDataFromCtrl2(){
+		try {
+			System.out.println(ctrl.process("Apple"));
+		} catch (NewsException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	public void getDataFromCtrl3(){
-
+		try {
+			System.out.println(ctrl.process("Microsoft"));
+		} catch (NewsException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public void getDataForCustomInput() {
-		
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Suche nach Schlagwort: ");
+		String q = scanner.next();
+		try {
+			System.out.println(ctrl.process(q));
+		} catch (NewsException e) {
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 
 	public void start() {
-		Menu<Runnable> menu = new Menu<>("User Interfacx");
+		Menu<Runnable> menu = new Menu<>("User Interface");
 		menu.setTitel("Wählen Sie aus:");
-		menu.insert("a", "Choice ABC", this::getDataFromCtrl1);
-		menu.insert("b", "Choice DEF", this::getDataFromCtrl2);
-		menu.insert("c", "Choice 3", this::getDataFromCtrl3);
-		menu.insert("d", "Choice User Imput:",this::getDataForCustomInput);
+		menu.insert("a", "Wirtschaft", this::getDataFromCtrl1);
+		menu.insert("b", "Apple", this::getDataFromCtrl2);
+		menu.insert("c", "Microsoft", this::getDataFromCtrl3);
+		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {

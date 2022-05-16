@@ -7,7 +7,6 @@ import newsapi.enums.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NewsApi {
@@ -104,35 +103,33 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() {
+    protected String requestData() throws NewsException, IOException {
         String url = buildURL();
         System.out.println("URL: "+url);
         URL obj = null;
-        try {
-            obj = new URL(url);
-        } catch (MalformedURLException e) {
-            // TOOO improve ErrorHandling
-            e.printStackTrace();
-        }
+        obj = new URL(url);
+
         HttpURLConnection con;
         StringBuilder response = new StringBuilder();
-        try {
-            con = (HttpURLConnection) obj.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
-            }
-            in.close();
-        } catch (IOException e) {
-            // TOOO improve ErrorHandling
-            System.out.println("Error "+e.getMessage());
+
+        con = (HttpURLConnection) obj.openConnection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
         }
+        in.close();
+
         return response.toString();
     }
 
-    protected String buildURL() {
+    protected String buildURL() throws NewsException {
         // TODO ErrorHandling
+
+        if (getQ() == null || getQ().equals("") || getApiKey() == null || getApiKey().equals("")) {
+            throw new NewsException("Not all required parameters for API request are defined (APIKey, q)!");
+        }
+
         String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
         StringBuilder sb = new StringBuilder(urlbase);
 
@@ -172,7 +169,7 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsReponse getNews() {
+    public NewsReponse getNews() throws NewsException, IOException {
         NewsReponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){
@@ -188,7 +185,12 @@ public class NewsApi {
             }
         }
         //TODO improve Errorhandling
-        return newsReponse;
+        if(newsReponse.getTotalResults() != 0){
+            return newsReponse;
+        } else {
+            throw new NewsException("Could not find any news for your request!");
+        }
+
     }
 }
 
