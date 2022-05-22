@@ -7,6 +7,7 @@ import newsapi.enums.*;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class NewsApi {
@@ -103,7 +104,7 @@ public class NewsApi {
         this.endpoint = endpoint;
     }
 
-    protected String requestData() throws NewsException, IOException {
+    protected String requestData() throws NewsApiException, IOException {
         String url = buildURL();
         System.out.println("URL: "+url);
         URL obj = null;
@@ -123,11 +124,11 @@ public class NewsApi {
         return response.toString();
     }
 
-    protected String buildURL() throws NewsException {
+    protected String buildURL() throws NewsApiException {
         // TODO ErrorHandling
 
         if (getQ() == null || getQ().equals("") || getApiKey() == null || getApiKey().equals("")) {
-            throw new NewsException("Not all required parameters for API request are defined (APIKey, q)!");
+            throw new NewsApiException("Not all required parameters for API request are defined (APIKey, q)!");
         }
 
         String urlbase = String.format(NEWS_API_URL,getEndpoint().getValue(),getQ(),getApiKey());
@@ -169,7 +170,7 @@ public class NewsApi {
         return sb.toString();
     }
 
-    public NewsReponse getNews() throws NewsException, IOException {
+    public NewsReponse getNews() throws NewsApiException, IOException {
         NewsReponse newsReponse = null;
         String jsonResponse = requestData();
         if(jsonResponse != null && !jsonResponse.isEmpty()){
@@ -188,7 +189,7 @@ public class NewsApi {
         if(newsReponse.getTotalResults() != 0){
             return newsReponse;
         } else {
-            throw new NewsException("Could not find any news for your request!");
+            throw new NewsApiException("Could not find any news for your request!");
         }
 
     }

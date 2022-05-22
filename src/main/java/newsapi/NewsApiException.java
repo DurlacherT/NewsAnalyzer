@@ -1,9 +1,9 @@
-package newsapi.beans;
+package newsapi;
 
 public class NewsApiException extends Exception {
 
     public NewsApiException(String message) {
         super(message);
-        System.out.println("Fehler");
     }
+
 }

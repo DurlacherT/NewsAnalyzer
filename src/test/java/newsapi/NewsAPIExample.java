@@ -29,7 +29,7 @@ public class NewsAPIExample {
                     List<Article> articles = newsResponse.getArticles();
                     articles.forEach(article -> System.out.println(article.toString()));
                 }
-            } catch (NewsException | IOException exception) {
+            } catch (NewsApiException | IOException exception) {
                 System.out.println("Error: " + exception.getMessage());
             }
 

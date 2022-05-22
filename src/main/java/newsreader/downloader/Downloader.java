@@ -1,4 +1,4 @@
-package newsapi;
+package newsreader.downloader;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,13 +7,14 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public abstract class Downloader {
 
     public static final String HTML_EXTENTION = ".html";
-    public static final String DIRECTORY_DOWNLOAD = "./download/";
+    public static final String DIRECTORY_DOWNLOAD = "C://Users//thoma//IdeaProjects//NewsAnalyzer/download/";
 
-    public abstract int process(List<String> urls);
+    public abstract int process(List<String> urls) throws InterruptedException, ExecutionException;
 
     public String saveUrl2File(String urlString) {
         InputStream is = null;

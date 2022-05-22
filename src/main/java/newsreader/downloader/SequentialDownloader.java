@@ -1,4 +1,4 @@
-package newsapi;
+package newsreader.downloader;
 
 import java.util.List;
 

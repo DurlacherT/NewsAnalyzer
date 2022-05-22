@@ -5,9 +5,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 import newsanalyzer.ctrl.Controller;
-import newsapi.NewsException;
+import newsapi.NewsApiException;
 
 public class UserInterface 
 {
@@ -17,43 +18,67 @@ public class UserInterface
 	public void getDataFromCtrl1(){
 		try {
 			System.out.println(ctrl.process("Wirtschaft"));
-		} catch (NewsException e) {
+		} catch (NewsApiException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void getDataFromCtrl2(){
 		try {
-			System.out.println(ctrl.process("Apple"));
-		} catch (NewsException e) {
+			System.out.println(ctrl.process("Politik"));
+		} catch (NewsApiException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void getDataFromCtrl3(){
 		try {
-			System.out.println(ctrl.process("Microsoft"));
-		} catch (NewsException e) {
+			System.out.println(ctrl.process("Kultur"));
+		} catch (NewsApiException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void getDataForCustomInput() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("Suche nach Schlagwort: ");
+		System.out.print("Suche Schlagwort: ");
 		String q = scanner.next();
 		try {
 			System.out.println(ctrl.process(q));
-		} catch (NewsException e) {
+		} catch (NewsApiException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
+			//e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -62,15 +87,15 @@ public class UserInterface
 		Menu<Runnable> menu = new Menu<>("User Interface");
 		menu.setTitel("Wählen Sie aus:");
 		menu.insert("a", "Wirtschaft", this::getDataFromCtrl1);
-		menu.insert("b", "Apple", this::getDataFromCtrl2);
-		menu.insert("c", "Microsoft", this::getDataFromCtrl3);
-		menu.insert("d", "Choice User Input:",this::getDataForCustomInput);
-		menu.insert("q", "Quit", null);
+		menu.insert("b", "Politik", this::getDataFromCtrl2);
+		menu.insert("c", "Kultur", this::getDataFromCtrl3);
+		menu.insert("d", "Schlagwort suche:",this::getDataForCustomInput);
+		menu.insert("q", "Ende", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {
 			 choice.run();
 		}
-		System.out.println("Program finished");
+		System.out.println("Programm beendet");
 	}
 
 
