@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 public abstract class Downloader {
 
     public static final String HTML_EXTENTION = ".html";
-    public static final String DIRECTORY_DOWNLOAD = "C://Users//thoma//IdeaProjects//NewsAnalyzer/download/";
+    public static final String DIRECTORY_DOWNLOAD = "./download/";
 
     public abstract int process(List<String> urls) throws InterruptedException, ExecutionException;
 

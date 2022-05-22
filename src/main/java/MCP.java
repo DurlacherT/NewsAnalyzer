@@ -1,3 +1,6 @@
+
+//Repo: https://github.com/DurlacherT/NewsAnalyzer.git
+
 import newsanalyzer.ui.UserInterface;
 
 public class MCP {
